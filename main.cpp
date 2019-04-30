@@ -42,6 +42,10 @@ pair<treap, treap> split (treap root, int key, treap* dupl) //операция s
 		splitted.first = nullptr;
 		splitted.second = nullptr;
 		unsigned status = _xbegin ();
+		while (status != _XBEGIN_STARTED)
+		{
+			status = _xbegin ();
+		}
 		if (status == _XBEGIN_STARTED)
 		{
 			splitted = split (root->right, key, dupl);
@@ -58,6 +62,10 @@ pair<treap, treap> split (treap root, int key, treap* dupl) //операция s
 		splitted.first = nullptr;
 		splitted.second = nullptr;
 		unsigned status = _xbegin ();
+		while (status != _XBEGIN_STARTED)
+		{
+			status = _xbegin ();
+		}
 		if (status == _XBEGIN_STARTED)
 		{
 			splitted = split (root->left, key, dupl);
@@ -70,6 +78,10 @@ pair<treap, treap> split (treap root, int key, treap* dupl) //операция s
 	else
 	{
 		unsigned status = _xbegin ();
+		while (status != _XBEGIN_STARTED)
+		{
+			status = _xbegin ();
+		}
 		if (status == _XBEGIN_STARTED)
 		{
 			(*dupl) = root;
@@ -88,6 +100,10 @@ treap merge(treap left, treap right) //операция merge - сливает �
 	{
 		treap tmp = nullptr;
 		unsigned status = _xbegin ();
+		while (status != _XBEGIN_STARTED)
+		{
+			status = _xbegin ();
+		}
 		if (status == _XBEGIN_STARTED)
 		{
 			tmp = right;
@@ -100,6 +116,10 @@ treap merge(treap left, treap right) //операция merge - сливает �
 	if (left->priority > right->priority)
 	{
 		unsigned status = _xbegin ();
+		while (status != _XBEGIN_STARTED)
+		{
+			status = _xbegin ();
+		}
 		if (status == _XBEGIN_STARTED)
 		{
 			left->right = merge (left->right, right);
@@ -110,6 +130,10 @@ treap merge(treap left, treap right) //операция merge - сливает �
 	else
 	{
 		unsigned status = _xbegin ();
+		while (status != _XBEGIN_STARTED)
+		{
+			status = _xbegin ();
+		}
 		if (status == _XBEGIN_STARTED)
 		{
 			right->left = merge (left, right->left);
