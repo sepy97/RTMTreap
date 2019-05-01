@@ -143,6 +143,49 @@ treap merge(treap left, treap right) //операция merge - сливает �
 	}
 }
 
+void erase (treap& t, int key)
+{
+	if (t->key == key)
+	{
+		t = merge (t->left, t->right);
+	}
+	else
+	{
+		if (key < t->key)
+		{
+			erase (t->left, key);
+		}
+		else
+		{
+			erase (t->right, key);
+		}
+	}
+}
+
+void insert (treap& t, treap toInsert)
+{
+	if (t == nullptr) t = toInsert;
+	else if (toInsert->priority > t->priority)
+	{
+		treap dupl;
+		auto tmp = split (t, toInsert->key, &dupl);
+		toInsert->left = tmp.first;
+		toInsert->right = tmp.second;
+		t = toInsert;
+	}
+	else
+	{
+		if (toInsert->key < t->key)
+		{
+			insert (t->left, toInsert);
+		}
+		else
+		{
+			insert (t->right, toInsert);
+		}
+	}
+}
+
 void testMerge (treap result, treap toMerge)
 {
 	result = merge (result, toMerge);
