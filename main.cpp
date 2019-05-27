@@ -81,6 +81,11 @@ void split (treap root, treap& left, treap& right, int key, treap* dupl)
 			_xabort (1);
 			status = _xbegin ();
 		}*/
+		if (status & _XABORT_CONFLICT)
+		{
+			_xabort (1);
+			status = _xbegin ();
+		}
 		if (status == _XBEGIN_STARTED)
 		{
 			(*dupl) = root;
@@ -215,6 +220,11 @@ void merge (treap left, treap right, treap& result)
 			_xabort (1);
 			status = _xbegin ();
 		}*/
+		if (status & _XABORT_CONFLICT)
+		{
+			_xabort (1);
+			status = _xbegin ();
+		}
 		if (status == _XBEGIN_STARTED)
 		{
 			std::swap (left, right);
@@ -641,7 +651,7 @@ int main ()
 		dumpTreap (t[i]);
 		printf ("@@@@@@@@@@@@@@@@@@@@@@\n");
 	}*/
-	int maxThreads = 2;
+	int maxThreads = 3;
 	toTest = new node ();
 	FastRandom* ran = new FastRandom (time(NULL));
 	
