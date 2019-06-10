@@ -72,12 +72,25 @@ void split (treap root, treap& left, treap& right, int key, treap* dupl)
 	}
 	else
 	{
-		auto tmp = *dupl;
-		auto tmp2 = root;
+		//auto tmp = *dupl;
+		//auto tmp2 = root;
 		//_m_prefetch (dupl);
 		//__builtin_prefetch (dupl, 1, 3);
-		//__builtin_prefetch (root, 1, 3);
+		//__builtin_prefetch (&root, 1, 3);
+		auto volatile v = *root;
+		auto volatile dv = *dupl;
+		//auto volatile dvv = **dupl;
+		auto volatile vl = left;
+		auto volatile vr = right;
+		auto volatile vll = root->left;
+		auto volatile vlr = root->right;
+		
 		unsigned status = _xbegin ();
+		/*while (status != _XBEGIN_STARTED)
+		{
+			std::this_thread::sleep_for (std::chrono::milliseconds(50+(FastRandom(time(nullptr)).rand ()%50)));
+			status = _xbegin ();
+		}*/
 		if (status == _XBEGIN_STARTED)
 		{
 			(*dupl) = root;
@@ -130,11 +143,13 @@ void merge (treap left, treap right, treap& result)
 	
 	if (left->key > right->key)
 	{
-		
-		//__builtin_prefetch (left, 1, 3);
-		//__builtin_prefetch (right, 1, 3);
-		auto tmp = left;
-		auto tmp2 = right;
+		auto volatile v = *result;
+		auto volatile vl = *left;
+		auto volatile vr = *right;
+		//__builtin_prefetch (&left, 1, 3);
+		//__builtin_prefetch (&right, 1, 3);
+		/*auto tmp = left;
+		auto tmp2 = right;*/
 		unsigned status = _xbegin ();
 		if (status == _XBEGIN_STARTED)
 		{
@@ -172,46 +187,6 @@ void merge (treap left, treap right, treap& result)
 			{
 				printf ("\n*****\nmerge status = %u\n*****\n", status);
 			}
-			/*
-			printf ("\n*****\nmerge status = %u\n*****\n", status);
-			switch (status)
-			{
-				case _XABORT_RETRY:
-				{
-					printf ("merge retry\n");
-					break;
-				}
-				case _XABORT_EXPLICIT:
-				{
-					printf ("merge explicit\n");
-					break;
-				}
-				case _XABORT_CONFLICT:
-				{
-					printf ("merge conflict\n");
-					break;
-				}
-				case _XABORT_CAPACITY:
-				{
-					printf ("merge capacity\n");
-					break;
-				}
-				case _XABORT_DEBUG:
-				{
-					printf ("merge debug\n");
-					break;
-				}
-				case _XABORT_NESTED:
-				{
-					printf ("merge nested\n");
-					break;
-				}
-				default:
-				{
-					printf ("\n*****\nmerge status = %u\n*****\n", status);
-					break;
-				}
-			}*/
 		}
 		return;
 		
@@ -303,7 +278,7 @@ void testMerge (const int volume, int threadNum)
 
 int main ()
 {
-	int maxThreads = 1;
+	int maxThreads = 10;
 	toTest = new node ();
 	FastRandom* ran = new FastRandom (time(NULL));
 	
