@@ -98,7 +98,7 @@ void split (treap root, treap& left, treap& right, int key, treap* dupl)
 			right   = root->right;
 			_xend ();
 		}
-		else
+		/*else
 		{
 			if (status & _XABORT_RETRY)
 			{
@@ -128,7 +128,7 @@ void split (treap root, treap& left, treap& right, int key, treap* dupl)
 			{
 				printf ("\n*****\nsplit status = %u\n*****\n", status);
 			}
-		}
+		}*/
 	}
 }
 
@@ -157,7 +157,7 @@ void merge (treap left, treap right, treap& result)
 			_xend ();
 			
 		}
-		else
+		/*else
 		{
 			if (status & _XABORT_RETRY)
 			{
@@ -187,7 +187,7 @@ void merge (treap left, treap right, treap& result)
 			{
 				printf ("\n*****\nmerge status = %u\n*****\n", status);
 			}
-		}
+		}*/
 		return;
 		
 	}
@@ -276,9 +276,20 @@ void testMerge (const int volume, int threadNum)
 	
 }
 
-int main ()
+int main (int argc, char** argv)
 {
-	int maxThreads = 100;
+	int maxThreads = 0;
+	if (argc > 1)
+	{
+		maxThreads = atoi(argv[1]);
+	}
+	else
+	{
+		maxThreads = 1;
+		//printf ("no arguments :( \n");
+		//return 0;
+	}
+	
 	toTest = new node ();
 	FastRandom* ran = new FastRandom (time(NULL));
 	
