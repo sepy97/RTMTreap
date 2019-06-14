@@ -302,7 +302,7 @@ int main (int argc, char** argv)
 	
 	std::thread thr[maxThreads];
 	
-	uint64_t tick = __rdtsc ()/100000;
+	uint64_t tick = __rdtsc ()/10000;
 	
 	for (int i = 0; i < maxThreads; i++)
 	{
@@ -314,7 +314,7 @@ int main (int argc, char** argv)
 		thr[i].join ();
 	}
 	
-	uint64_t tick2 = __rdtsc ()/100000;
+	uint64_t tick2 = __rdtsc ()/10000;
 	printf ("%llu\n", tick2 - tick);
 	
 	return 0;
