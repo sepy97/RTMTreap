@@ -278,7 +278,7 @@ void testMerge (const int volume, int threadNum)
 
 int main ()
 {
-	int maxThreads = 10;
+	int maxThreads = 100;
 	toTest = new node ();
 	FastRandom* ran = new FastRandom (time(NULL));
 	
