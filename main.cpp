@@ -315,7 +315,7 @@ int main (int argc, char** argv)
 	}
 	
 	uint64_t tick2 = __rdtsc ()/10000;
-	printf ("%llu\n", tick2 - tick);
+	printf ("%d, %llu, \n", maxThreads, tick2 - tick);
 	
 	return 0;
 }
